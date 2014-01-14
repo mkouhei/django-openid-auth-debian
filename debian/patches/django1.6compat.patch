@@ -1,0 +1,72 @@
+Description: Fixed for Django 1.6 compatible
+ "No module named defaults" occures in django_openid_auth/urls.py, 
+ why django.conf.urls.defaults has been removed in Django 1.6.
+ So fixed import modules.
+ "execute_manager deprecated in Django 1.6".
+Author: Kouhei Maeda <mkouhei@palmtb.net>
+Origin: vendor
+Last-Update: 2014-01-13
+
+Index: django-openid-auth-0.5/django_openid_auth/urls.py
+===================================================================
+--- django-openid-auth-0.5.orig/django_openid_auth/urls.py	2013-03-14 06:53:38.000000000 +0900
++++ django-openid-auth-0.5/django_openid_auth/urls.py	2014-01-13 07:44:49.430915132 +0900
+@@ -27,7 +27,7 @@
+ # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ # POSSIBILITY OF SUCH DAMAGE.
+ 
+-from django.conf.urls.defaults import *
++from django.conf.urls import patterns, url
+ 
+ urlpatterns = patterns('django_openid_auth.views',
+     url(r'^login/$', 'login_begin', name='openid-login'),
+Index: django-openid-auth-0.5/example_consumer/manage.py
+===================================================================
+--- django-openid-auth-0.5.orig/example_consumer/manage.py	2012-08-29 23:25:18.000000000 +0900
++++ django-openid-auth-0.5/example_consumer/manage.py	2014-01-13 08:01:34.006791131 +0900
+@@ -1,11 +1,10 @@
+-#!/usr/bin/env python
+-from django.core.management import execute_manager
+-try:
+-    import settings # Assumed to be in the same directory.
+-except ImportError:
+-    import sys
+-    sys.stderr.write("Error: Can't find the file 'settings.py' in the directory containing %r. It appears you've customized things.\nYou'll have to run django-admin.py, passing it your settings module.\n(If the file settings.py does indeed exist, it's causing an ImportError somehow.)\n" % __file__)
+-    sys.exit(1)
++# -*- coding: utf-8 -*-
++import os
++import sys
+ 
+ if __name__ == "__main__":
+-    execute_manager(settings)
++    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "example_consumer.settings")
++
++    from django.core.management import execute_from_command_line
++
++    execute_from_command_line(sys.argv)
+Index: django-openid-auth-0.5/example_consumer/urls.py
+===================================================================
+--- django-openid-auth-0.5.orig/example_consumer/urls.py	2013-03-14 06:53:00.000000000 +0900
++++ django-openid-auth-0.5/example_consumer/urls.py	2014-01-13 08:05:08.323881671 +0900
+@@ -27,7 +27,7 @@
+ # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ # POSSIBILITY OF SUCH DAMAGE.
+ 
+-from django.conf.urls.defaults import *
++from django.conf.urls import patterns, include
+ from django.contrib import admin
+ 
+ import views
+Index: django-openid-auth-0.5/django_openid_auth/tests/urls.py
+===================================================================
+--- django-openid-auth-0.5.orig/django_openid_auth/tests/urls.py	2013-03-14 06:54:12.000000000 +0900
++++ django-openid-auth-0.5/django_openid_auth/tests/urls.py	2014-01-13 08:06:15.198752041 +0900
+@@ -27,7 +27,7 @@
+ # POSSIBILITY OF SUCH DAMAGE.
+ 
+ from django.http import HttpResponse
+-from django.conf.urls.defaults import *
++from django.conf.urls import patterns, include
+ 
+ 
+ def get_user(request):

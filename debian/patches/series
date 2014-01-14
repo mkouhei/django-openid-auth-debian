@@ -1,0 +1,4 @@
+django1.5compat.patch
+Change-manage-py-for-django1.6.patch
+Change-import-modules-in-urls-for-django1.6.patch
+Append-JSONSerializer-to-SESSION_SERIALIZER.patch

@@ -1,0 +1,10 @@
+Index: django-openid-auth-0.5/example_consumer/settings.py
+===================================================================
+--- django-openid-auth-0.5.orig/example_consumer/settings.py	2014-01-14 13:13:58.223539726 +0900
++++ django-openid-auth-0.5/example_consumer/settings.py	2014-01-14 13:25:37.430558509 +0900
+@@ -143,3 +143,5 @@
+ 
+ # Should django_auth_openid be used to sign into the admin interface?
+ OPENID_USE_AS_ADMIN_LOGIN = False
++
++SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
